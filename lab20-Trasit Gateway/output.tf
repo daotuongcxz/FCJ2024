@@ -7,3 +7,6 @@ output "instances_ips" {
   }
   description = "Public and Private IP addresses of all instances"
 }
+
+
+

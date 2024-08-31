@@ -22,3 +22,4 @@ variable "create_igw" {
   default = false
   nullable = false
 }
+

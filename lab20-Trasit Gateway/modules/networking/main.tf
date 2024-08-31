@@ -1,7 +1,3 @@
-# provider "aws" {
-#   region = var.region
-# }
-
 # Tạo VPC
 resource "aws_vpc" "my_vpc" {
   cidr_block           = var.cidr_block
@@ -31,24 +27,3 @@ resource "aws_internet_gateway" "my_igw" {
   }
 }
 
-# Tạo bảng route public
-resource "aws_route_table" "public_route_table" {
-  vpc_id = aws_vpc.my_vpc.id
-  tags = {
-    Name = "Public RTB"
-  }
-}
-
-# Tạo route đến Internet Gateway nếu nó tồn tại
-resource "aws_route" "public_route" {
-  count = var.create_igw ? 1 : 0
-  route_table_id         = aws_route_table.public_route_table.id
-  destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = element(aws_internet_gateway.my_igw.*.id, 0)
-}
-
-# Gán các subnet public với bảng route public
-resource "aws_route_table_association" "public_subnet_association_1" {
-  subnet_id      = aws_subnet.public_subnet_1.id
-  route_table_id = aws_route_table.public_route_table.id
-}
